@@ -49,7 +49,7 @@ bun run install:agent
 
 3. Set up your OpenAI API key:
 ```bash
-export OPENAI_API_KEY="your-openai-api-key-here"
+echo 'OPENAI_API_KEY=your-openai-api-key-here' > agent/.env
 ```
 
 4. Start the development server:
