@@ -59,12 +59,10 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     # 1. Define the model
     model = ChatOpenAI(model="gpt-4o")
 
-    print(state)
-
     # 2. Bind the tools to the model
     model_with_tools = model.bind_tools(
         [
-            *state["tools"], # bind tools defined by ag-ui
+            *state.get("tools", []), # bind tools defined by ag-ui
             get_weather,
             # your_tool_here
         ],

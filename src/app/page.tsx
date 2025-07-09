@@ -42,7 +42,7 @@ type AgentState = {
 
 function YourMainContent({ themeColor }: { themeColor: string }) {
   // 🪁 Shared State: https://docs.copilotkit.ai/coagents/shared-state
-  const {state, setState} = useCoAgent<AgentState>({
+  const { state, setState } = useCoAgent<AgentState>({
     name: "sample_agent",
     initialState: {
       proverbs: [
@@ -69,7 +69,7 @@ function YourMainContent({ themeColor }: { themeColor: string }) {
 
   //🪁 Generative UI: https://docs.copilotkit.ai/coagents/generative-ui
   useCopilotAction({
-    name: "getWeather",
+    name: "get_weather",
     description: "Get the weather for a given location.",
     available: "disabled",
     parameters: [
