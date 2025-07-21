@@ -6,7 +6,7 @@ It defines the workflow graph, state, tools, nodes and edges.
 from typing import Any, List
 from typing_extensions import Literal
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import SystemMessage
+from langchain_core.messages import SystemMessage, BaseMessage
 from langchain_core.runnables import RunnableConfig
 from langchain.tools import tool
 from langgraph.graph import StateGraph, END
@@ -39,10 +39,14 @@ def get_weather(location: str):
 #     print(f"Your tool logic here")
 #     return "Your tool response here."
 
-tools = [
+backend_tools = [
     get_weather
     # your_tool_here
 ]
+
+# Extract tool names from backend_tools for comparison
+backend_tool_names = [tool.name for tool in backend_tools]
+
 
 async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Literal["tool_node", "__end__"]]:
     """
@@ -63,7 +67,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     model_with_tools = model.bind_tools(
         [
             *state.get("tools", []), # bind tools defined by ag-ui
-            get_weather,
+            *backend_tools,
             # your_tool_here
         ],
 
@@ -84,18 +88,41 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
         *state["messages"],
     ], config)
 
+    # only route to tool node if tool is not in the tools list
+    if route_to_tool_node(response):
+        print("routing to tool node")
+        return Command(
+            goto="tool_node",
+            update={
+                "messages": [response],
+            }
+        )
+
     # 5. We've handled all tool calls, so we can end the graph.
     return Command(
         goto=END,
         update={
-            "messages": response
+            "messages": [response],
         }
     )
+
+def route_to_tool_node(response: BaseMessage):
+    """
+    Route to tool node if any tool call in the response matches a backend tool name.
+    """
+    tool_calls = getattr(response, "tool_calls", None)
+    if not tool_calls:
+        return False
+
+    for tool_call in tool_calls:
+        if tool_call.get("name") in backend_tool_names:
+            return True
+    return False
 
 # Define the workflow graph
 workflow = StateGraph(AgentState)
 workflow.add_node("chat_node", chat_node)
-workflow.add_node("tool_node", ToolNode(tools=tools))
+workflow.add_node("tool_node", ToolNode(tools=backend_tools))
 workflow.add_edge("tool_node", "chat_node")
 workflow.set_entry_point("chat_node")
 
