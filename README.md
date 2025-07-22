@@ -32,27 +32,15 @@ yarn install
 bun install
 ```
 
-2. Install Python dependencies for the LangGraph agent:
-```bash
-# Using pnpm
-pnpm install:agent
+> **Note:** Installing the package dependencies will also install the agent's python dependencies via the `install:agent` script.
 
-# Using npm
-npm run install:agent
 
-# Using yarn
-yarn install:agent
-
-# Using bun
-bun run install:agent
-```
-
-3. Set up your OpenAI API key:
+2. Set up your OpenAI API key:
 ```bash
 echo 'OPENAI_API_KEY=your-openai-api-key-here' > agent/.env
 ```
 
-4. Start the development server:
+3. Start the development server:
 ```bash
 # Using pnpm
 pnpm dev
@@ -113,6 +101,5 @@ If you see "I'm having trouble connecting to my tools", make sure:
 ### Python Dependencies
 If you encounter Python import errors:
 ```bash
-cd agent
-pip install -r requirements.txt
+npm install:agent
 ```

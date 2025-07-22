@@ -10,7 +10,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "install:agent": "cd agent && pip install -r requirements.txt"
+    "install:agent": "sh ./scripts/setup-agent.sh || scripts/setup-agent.bat",
+    "postinstall": "npm run install:agent"
   },
   "dependencies": {
     "@ag-ui/langgraph": "0.0.7",
