@@ -62,7 +62,7 @@ function YourMainContent({ themeColor }: { themeColor: string }) {
     handler: ({ proverb }) => {
       setState({
         ...state,
-        proverbs: [...state.proverbs, proverb],
+        proverbs: [...(state.proverbs || []), proverb],
       });
     },
   });
@@ -99,7 +99,7 @@ function YourMainContent({ themeColor }: { themeColor: string }) {
               <button 
                 onClick={() => setState({
                   ...state,
-                  proverbs: state.proverbs?.filter((_, i) => i !== index),
+                  proverbs: (state.proverbs || []).filter((_, i) => i !== index),
                 })}
                 className="absolute right-3 top-3 opacity-0 group-hover:opacity-100 transition-opacity 
                   bg-red-500 hover:bg-red-600 text-white rounded-full h-6 w-6 flex items-center justify-center"
