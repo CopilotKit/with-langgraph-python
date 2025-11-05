@@ -10,7 +10,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "install:agent": "sh ./scripts/setup-agent.sh || scripts/setup-agent.bat",
+    "install:agent": "sh ./scripts/setup-agent.sh || scripts\\setup-agent.bat",
     "postinstall": "npm run install:agent"
   },
   "dependencies": {
