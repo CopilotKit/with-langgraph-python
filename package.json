@@ -24,7 +24,8 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
-    "@langchain/langgraph-cli": "0.0.40",
+    "@eslint/eslintrc": "^3",
+    "@langchain/langgraph-cli": "^1.0.4",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

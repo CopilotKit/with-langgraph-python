@@ -4,15 +4,15 @@ It defines the workflow graph, state, tools, nodes and edges.
 """
 
 from typing import Any, List
-from typing_extensions import Literal
-from langchain_openai import ChatOpenAI
-from langchain_core.messages import SystemMessage, BaseMessage
-from langchain_core.runnables import RunnableConfig
+
 from langchain.tools import tool
-from langgraph.graph import StateGraph, END
-from langgraph.types import Command
-from langgraph.graph import MessagesState
+from langchain_core.messages import BaseMessage, SystemMessage
+from langchain_core.runnables import RunnableConfig
+from langchain_openai import ChatOpenAI
+from langgraph.graph import END, MessagesState, StateGraph
 from langgraph.prebuilt import ToolNode
+from langgraph.types import Command
+
 
 class AgentState(MessagesState):
     """
@@ -22,9 +22,11 @@ class AgentState(MessagesState):
     the CopilotKitState fields. We're also adding a custom field, `language`,
     which will be used to set the language of the agent.
     """
-    proverbs: List[str] = []
+
+    proverbs: List[str]
     tools: List[Any]
     # your_custom_agent_state: str = ""
+
 
 @tool
 def get_weather(location: str):
@@ -32,6 +34,7 @@ def get_weather(location: str):
     Get the weather for a given location.
     """
     return f"The weather for {location} is 70 degrees."
+
 
 # @tool
 # def your_tool_here(your_arg: str):
@@ -48,7 +51,7 @@ backend_tools = [
 backend_tool_names = [tool.name for tool in backend_tools]
 
 
-async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Literal["tool_node", "__end__"]]:
+async def chat_node(state: AgentState, config: RunnableConfig) -> Command[str]:
     """
     Standard chat node based on the ReAct design pattern. It handles:
     - The model to use (and binds in CopilotKit actions and the tools defined above)
@@ -61,16 +64,15 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     """
 
     # 1. Define the model
-    model = ChatOpenAI(model="gpt-4o")
+    model = ChatOpenAI(model="gpt-5-mini")
 
     # 2. Bind the tools to the model
     model_with_tools = model.bind_tools(
         [
-            *state.get("tools", []), # bind tools defined by ag-ui
+            *state.get("tools", []),  # bind tools defined by ag-ui
             *backend_tools,
             # your_tool_here
         ],
-
         # 2.1 Disable parallel tool calls to avoid race conditions,
         #     enable this for faster performance if you want to manage
         #     the complexity of running tool calls in parallel.
@@ -83,10 +85,13 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
     )
 
     # 4. Run the model to generate a response
-    response = await model_with_tools.ainvoke([
-        system_message,
-        *state["messages"],
-    ], config)
+    response = await model_with_tools.ainvoke(
+        [
+            system_message,
+            *state["messages"],
+        ],
+        config,
+    )
 
     # only route to tool node if tool is not in the tools list
     if route_to_tool_node(response):
@@ -95,7 +100,7 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
             goto="tool_node",
             update={
                 "messages": [response],
-            }
+            },
         )
 
     # 5. We've handled all tool calls, so we can end the graph.
@@ -103,8 +108,9 @@ async def chat_node(state: AgentState, config: RunnableConfig) -> Command[Litera
         goto=END,
         update={
             "messages": [response],
-        }
+        },
     )
+
 
 def route_to_tool_node(response: BaseMessage):
     """
@@ -118,6 +124,7 @@ def route_to_tool_node(response: BaseMessage):
         if tool_call.get("name") in backend_tool_names:
             return True
     return False
+
 
 # Define the workflow graph
 workflow = StateGraph(AgentState)
