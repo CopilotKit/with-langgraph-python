@@ -14,13 +14,12 @@
     "postinstall": "npm run install:agent"
   },
   "dependencies": {
-    "@ag-ui/langgraph": "0.0.18",
-    "@copilotkit/react-core": "1.10.6",
-    "@copilotkit/react-ui": "1.10.6",
-    "@copilotkit/runtime": "1.10.6",
-    "next": "16.0.1",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
+    "@copilotkit/react-core": "1.50.0",
+    "@copilotkit/react-ui": "1.50.0",
+    "@copilotkit/runtime": "1.50.0",
+    "next": "16.0.8",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "zod": "^3.24.4"
   },
   "devDependencies": {
@@ -32,7 +31,7 @@
     "@types/react-dom": "^19",
     "concurrently": "^9.1.2",
     "eslint": "^9",
-    "eslint-config-next": "16.0.1",
+    "eslint-config-next": "16.0.7",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
