@@ -6,8 +6,10 @@ import { MoonCard } from "@/components/moon";
 import { AgentState } from "@/lib/types";
 import {
   useCoAgent,
+  useDefaultTool,
   useFrontendTool,
   useHumanInTheLoop,
+  useLangGraphInterrupt,
   useRenderToolCall,
 } from "@copilotkit/react-core";
 import { CopilotKitCSSProperties, CopilotSidebar } from "@copilotkit/react-ui";
@@ -80,18 +82,14 @@ export default function CopilotKitPage() {
 
 function YourMainContent({ themeColor }: { themeColor: string }) {
   // 🪁 Shared State: https://docs.copilotkit.ai/pydantic-ai/shared-state
-  const { state, setState } = useCoAgent<AgentState>({
+  const { state, setState } = useCoAgent({
     name: "sample_agent",
-    initialState: {
-      proverbs: [
-        "CopilotKit may be new, but its the best thing since sliced bread.",
-      ],
-    },
   });
 
   // 🪁 Frontend Actions: https://docs.copilotkit.ai/coagents/frontend-actions
   useFrontendTool({
     name: "updateProverbs",
+    description: "Update the list of proverbs. Always describe what the proverbs you added are.",
     parameters: [
       {
         name: "proverbs",
@@ -120,6 +118,16 @@ function YourMainContent({ themeColor }: { themeColor: string }) {
     },
     [themeColor],
   );
+
+  useDefaultTool({
+    render: ({ name, status }) => {
+      const textStyles = "text-gray-500 text-sm mt-2"
+      if(status !== "complete") {
+        return <p className={textStyles}>Calling {name}...</p>;
+      }
+      return <p className={textStyles}>Called {name}!</p>;
+    },
+  })
 
   // 🪁 Human In the Loop: https://docs.copilotkit.ai/pydantic-ai/human-in-the-loop
   useHumanInTheLoop(
