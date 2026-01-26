@@ -1,0 +1,4 @@
+packages:
+  - "apps/app"
+  - "apps/agent"
+  - "apps/mcp"
