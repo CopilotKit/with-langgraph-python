@@ -2,6 +2,8 @@
 
 This is a starter template for building AI agents using [LangGraph](https://www.langchain.com/langgraph) and [CopilotKit](https://copilotkit.ai). It provides a modern Next.js application with an integrated LangGraph agent to be built on top of.
 
+https://github.com/user-attachments/assets/47761912-d46a-4fb3-b9bd-cb41ddd02e34
+
 ## Prerequisites
 
 - Node.js 18+ 
