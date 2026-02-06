@@ -13,6 +13,7 @@ import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js"
 import type { ReadResourceResult } from "@modelcontextprotocol/sdk/types.js";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { startServer } from "./server-utils.js";
 
@@ -20,7 +21,8 @@ import { startServer } from "./server-utils.js";
 // Constants
 // =============================================================================
 
-const DIST_DIR = path.join(import.meta.dirname, "dist");
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const DIST_DIR = path.join(__dirname, "dist");
 
 // Default code example for the Three.js widget
 const DEFAULT_THREEJS_CODE = `const scene = new THREE.Scene();

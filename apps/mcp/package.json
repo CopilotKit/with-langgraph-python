@@ -18,8 +18,8 @@
   "scripts": {
     "build": "tsc --noEmit && cross-env INPUT=mcp-app.html vite build",
     "watch": "cross-env INPUT=mcp-app.html vite build --watch",
-    "serve:http": "bun --watch server.ts",
-    "serve:stdio": "bun server.ts --stdio",
+    "serve:http": "tsx watch server.ts",
+    "serve:stdio": "tsx server.ts --stdio",
     "start": "npm run start:http",
     "start:http": "cross-env NODE_ENV=development npm run build && npm run serve:http",
     "start:stdio": "cross-env NODE_ENV=development npm run build && npm run serve:stdio",
@@ -46,6 +46,7 @@
     "cors": "^2.8.5",
     "cross-env": "^10.1.0",
     "express": "^5.1.0",
+    "tsx": "^4.19.2",
     "typescript": "^5.9.3",
     "vite": "^6.0.0",
     "vite-plugin-singlefile": "^2.3.0"
