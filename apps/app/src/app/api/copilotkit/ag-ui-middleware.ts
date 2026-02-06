@@ -5,7 +5,7 @@ export const aguiMiddleware = [
     mcpServers: [
       {
         type: "http",
-        url: "http://localhost:3108/mcp",
+        url: process.env.MCP_SERVER_URL || "http://localhost:3108/mcp",
         serverId: "example_mcp_app",
       },
     ],
