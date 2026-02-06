@@ -1,38 +1,23 @@
 {
-  "name": "langgraph-python-starter",
-  "version": "0.1.0",
+  "name": "copilotkit-langgraph-template",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"npm run dev:ui\" \"npm run dev:agent\" --names ui,agent --prefix-colors blue,green --kill-others",
-    "dev:debug": "LOG_LEVEL=debug npm run dev",
-    "dev:agent": "cd agent && npx @langchain/langgraph-cli dev --port 8123 --no-browser",
-    "dev:ui": "next dev --turbopack",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint .",
-    "install:agent": "sh ./scripts/setup-agent.sh || scripts\\setup-agent.bat",
-    "postinstall": "npm run install:agent"
-  },
-  "dependencies": {
-    "@copilotkit/react-core": "1.51.0",
-    "@copilotkit/react-ui": "1.51.0",
-    "@copilotkit/runtime": "1.51.0",
-    "next": "16.1.1",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "react18-json-view": "^0.2.9"
+    "dev": "turbo run dev",
+    "dev:app": "turbo run dev --filter='app'",
+    "dev:agent": "turbo run dev --filter='agent'",
+    "dev:mcp": "turbo run dev --filter='mcp'",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean"
   },
   "devDependencies": {
-    "@eslint/eslintrc": "^3",
-    "@langchain/langgraph-cli": "^1.0.4",
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "concurrently": "^9.1.2",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.1",
-    "tailwindcss": "^4",
-    "typescript": "^5"
+    "turbo": "^2.5.4",
+    "concurrently": "^9.1.2"
+  },
+  "packageManager": "pnpm@9.0.0",
+  "pnpm": {
+    "overrides": {
+      "esbuild": "^0.27.3"
+    }
   }
 }

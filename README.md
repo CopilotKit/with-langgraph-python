@@ -32,12 +32,16 @@ yarn install
 bun install
 ```
 
-> **Note:** Installing the package dependencies will also install the agent's python dependencies via the `install:agent` script.
 
-
-2. Set up your OpenAI API key:
+2. Set up your environment variables:
 ```bash
-echo 'OPENAI_API_KEY=your-openai-api-key-here' > agent/.env
+cp .env.example .env
+```
+
+Then edit the `.env` file and add your OpenAI API key:
+
+```bash
+OPENAI_API_KEY=your-openai-api-key-here
 ```
 
 3. Start the development server:
@@ -79,8 +83,6 @@ The main UI component is in `src/app/page.tsx`. You can:
 
 - [LangGraph Documentation](https://langchain-ai.github.io/langgraph/) - Learn more about LangGraph and its features
 - [CopilotKit Documentation](https://docs.copilotkit.ai) - Explore CopilotKit's capabilities
-- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features and API
-- [YFinance Documentation](https://pypi.org/project/yfinance/) - Financial data tools
 
 ## Contributing
 
