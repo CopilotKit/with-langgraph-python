@@ -66,7 +66,7 @@ export function TodoList({ todos, onUpdate, isAgentRunning }: TodoListProps) {
       <div className="flex items-center justify-center h-full">
         <button
           onClick={addTodo}
-          className="px-6 py-3 bg-gray-800 text-white font-medium rounded-lg hover:bg-gray-900 shadow-md hover:shadow-lg transition-all cursor-pointer"
+          className="px-6 py-3 bg-gray-800 dark:bg-zinc-700 text-white font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 shadow-md hover:shadow-lg transition-all cursor-pointer"
           aria-label="Add your first todo task"
           disabled={isAgentRunning}
         >

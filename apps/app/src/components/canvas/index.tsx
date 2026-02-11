@@ -7,7 +7,7 @@ export function Canvas() {
   const { agent } = useAgent();
 
   return (
-    <div className="h-full p-8 bg-gray-50">
+    <div className="h-full p-8 bg-gray-50 dark:bg-black">
       <TodoList
         // read state from agent
         todos={agent.state?.todos || []} 

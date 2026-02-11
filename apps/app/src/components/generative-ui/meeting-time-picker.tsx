@@ -37,20 +37,20 @@ export function MeetingTimePicker({
   };
 
   return (
-    <div className="rounded-2xl shadow-lg max-w-md w-full border mx-auto mb-10">
+    <div className="rounded-2xl shadow-lg max-w-md w-full border dark:border-zinc-700 mx-auto mb-10 bg-white dark:bg-zinc-800">
       <div className="backdrop-blur-md p-8 w-full rounded-2xl">
         {/* Show confirmation or prompt */}
         {selectedSlot ? (
           <div className="text-center">
             <div className="text-7xl mb-4">📅</div>
-            <h2 className="text-2xl font-bold mb-2">
+            <h2 className="text-2xl font-bold mb-2 dark:text-white">
               Meeting Scheduled
             </h2>
-            <p className="text-gray-600 mb-2">
+            <p className="text-gray-600 dark:text-zinc-400 mb-2">
               {selectedSlot.date} at {selectedSlot.time}
             </p>
             {selectedSlot.duration && (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-zinc-400">
                 Duration: {selectedSlot.duration}
               </p>
             )}
@@ -58,10 +58,10 @@ export function MeetingTimePicker({
         ) : declined ? (
           <div className="text-center">
             <div className="text-7xl mb-4">🔄</div>
-            <h2 className="text-2xl font-bold mb-2">
+            <h2 className="text-2xl font-bold mb-2 dark:text-white">
               No Time Selected
             </h2>
-            <p className="text-gray-600">
+            <p className="text-gray-600 dark:text-zinc-400">
               Let me find a better time that works for you
             </p>
           </div>
@@ -69,10 +69,10 @@ export function MeetingTimePicker({
           <>
             <div className="text-center mb-6">
               <div className="text-7xl mb-4">🗓️</div>
-              <h2 className="text-2xl font-bold mb-2">
+              <h2 className="text-2xl font-bold mb-2 dark:text-white">
                 {title}
               </h2>
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-zinc-400">
                 Select a time that works for you
               </p>
             </div>
@@ -85,18 +85,18 @@ export function MeetingTimePicker({
                     key={index}
                     onClick={() => handleSelectSlot(slot)}
                     className="w-full px-6 py-4 rounded-xl font-medium
-                      border-2 border-gray-200 hover:border-blue-500
+                      border-2 border-gray-200 dark:border-zinc-600 hover:border-blue-500 dark:hover:border-blue-400
                       shadow-sm hover:shadow-md transition-all cursor-pointer
                       hover:scale-102 active:scale-98
                       flex justify-between items-center
-                      hover:bg-blue-50"
+                      hover:bg-blue-50 dark:hover:bg-blue-900/30"
                   >
                     <div className="text-left">
-                      <div className="font-bold text-gray-900">{slot.date}</div>
-                      <div className="text-sm text-gray-600">{slot.time}</div>
+                      <div className="font-bold text-gray-900 dark:text-zinc-100">{slot.date}</div>
+                      <div className="text-sm text-gray-600 dark:text-zinc-400">{slot.time}</div>
                     </div>
                     {slot.duration && (
-                      <div className="text-sm text-gray-500">{slot.duration}</div>
+                      <div className="text-sm text-gray-500 dark:text-zinc-400">{slot.duration}</div>
                     )}
                   </button>
                 ))}
@@ -104,9 +104,9 @@ export function MeetingTimePicker({
                 <button
                   onClick={handleDecline}
                   className="w-full px-6 py-3 rounded-xl font-medium
-                    text-gray-600 hover:text-gray-800
+                    text-gray-600 dark:text-zinc-400 hover:text-gray-800 dark:hover:text-zinc-200
                     transition-all cursor-pointer
-                    hover:bg-gray-100"
+                    hover:bg-gray-100 dark:hover:bg-zinc-700"
                 >
                   None of these work
                 </button>

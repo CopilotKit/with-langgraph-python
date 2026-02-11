@@ -10,12 +10,12 @@ interface BarChartProps {
 export function BarChart({ title, description, data }: BarChartProps) {
   if (!data || !Array.isArray(data) || data.length === 0) {
     return (
-      <div className="rounded-xl border shadow-sm p-6 max-w-2xl mx-auto my-6">
+      <div className="rounded-xl border dark:border-zinc-700 shadow-sm p-6 max-w-2xl mx-auto my-6 bg-white dark:bg-zinc-800">
         <div className="mb-4">
-          <h3 className="text-xl font-bold">{title}</h3>
-          <p className="text-sm text-gray-600">{description}</p>
+          <h3 className="text-xl font-bold dark:text-white">{title}</h3>
+          <p className="text-sm text-gray-600 dark:text-zinc-400">{description}</p>
         </div>
-        <p className="text-gray-500 text-center py-8">No data available</p>
+        <p className="text-gray-500 dark:text-zinc-400 text-center py-8">No data available</p>
       </div>
     );
   }
@@ -27,10 +27,10 @@ export function BarChart({ title, description, data }: BarChartProps) {
   }));
 
   return (
-    <div className="rounded-xl border shadow-sm p-6 max-w-2xl mx-auto my-6">
+    <div className="rounded-xl border dark:border-zinc-700 shadow-sm p-6 max-w-2xl mx-auto my-6 bg-white dark:bg-zinc-800">
       <div className="mb-4">
-        <h3 className="text-xl font-bold">{title}</h3>
-        <p className="text-sm text-gray-600">{description}</p>
+        <h3 className="text-xl font-bold dark:text-white">{title}</h3>
+        <p className="text-sm text-gray-600 dark:text-zinc-400">{description}</p>
       </div>
 
       <ResponsiveContainer width="100%" height={300}>
@@ -45,7 +45,7 @@ export function BarChart({ title, description, data }: BarChartProps) {
             stroke="#6b7280"
           />
           <Tooltip contentStyle={CHART_CONFIG.tooltipStyle} />
-          <Bar dataKey="value" radius={[4, 4, 0, 0]} />
+          <Bar isAnimationActive={false} dataKey="value" radius={[4, 4, 0, 0]} />
         </RechartsBarChart>
       </ResponsiveContainer>
     </div>

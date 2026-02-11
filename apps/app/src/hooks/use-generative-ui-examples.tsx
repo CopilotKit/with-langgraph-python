@@ -14,14 +14,18 @@ export const useGenerativeUIExamples = () => {
   // 🪁 Frontend Tools: https://docs.copilotkit.ai/langgraph/frontend-actions
   // ------------------
   useFrontendTool({
-    name: "alertHelloToUser",
-    description: "Call the browser's native `alert` function. This is a great example of a frontend tool.",
+    name: "toggleTheme",
+    description: "Toggle between light and dark mode for the app. This is a great example of a frontend tool.",
     parameters: z.object({
-      name: z.string(),
+      theme: z.enum(["light", "dark"]).describe("The theme to switch to"),
     }),
-    handler: async ({ name }) => {
-      alert(`Hello ${name}!`);
-      return `Said hello to ${name}!`;
+    handler: async ({ theme }) => {
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+      return `Switched to ${theme} mode!`;
     },
   });
 
@@ -44,10 +48,8 @@ export const useGenerativeUIExamples = () => {
   useFrontendTool({
     name: "show_pie_chart",
     description: `
-      Always call the query_data tool to fetch all data from the database first.
-      Display data as a pie chart or bar chart. Use pie charts for part-to-whole relationships (5-7 segments max). Use bar charts for comparisons or trends.
-
-      This is a great example of static generative UI.
+      Displays data as a pie chart or bar chart. 
+      This is a great example of controlled generative UI.
     `,
     parameters: z.object({
       title: z.string().describe("Chart title"),
@@ -72,10 +74,8 @@ export const useGenerativeUIExamples = () => {
   useFrontendTool({
     name: "show_bar_chart",
     description: `
-      Always call the query_data tool to fetch all data from the database first.
-      Display data as a pie chart or bar chart. Use pie charts for part-to-whole relationships (5-7 segments max). Use bar charts for comparisons or trends.
-
-      This is a great example of static generative UI.
+      Displays data as a pie chart or bar chart. 
+      This is a great example of controlled generative UI.
     `,
     parameters: z.object({
       title: z.string().describe("Chart title"),

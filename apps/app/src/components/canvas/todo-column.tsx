@@ -39,15 +39,15 @@ export function TodoColumn({
     <section aria-label={`${title} column`} className="flex-1 min-w-0">
       <div className="mb-6 flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-bold text-gray-900">{title}</h2>
-          <p className="text-sm text-gray-500 mt-1">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-zinc-100">{title}</h2>
+          <p className="text-sm text-gray-500 dark:text-zinc-400 mt-1">
             {todos.length} {todos.length === 1 ? 'task' : 'tasks'}
           </p>
         </div>
         {showAddButton && onAddTodo && (
           <button
             onClick={onAddTodo}
-            className="px-2.5 py-0.5 text-black text-xl border bg-white font-medium rounded-lg hover:border-gray-500 hover:border hover:shadow-md transition-all cursor-pointer"
+            className="px-2.5 py-0.5 text-black dark:text-white text-xl border dark:border-zinc-600 bg-white dark:bg-zinc-800 font-medium rounded-lg hover:border-gray-500 dark:hover:border-zinc-400 hover:border hover:shadow-md transition-all cursor-pointer"
             aria-label="Add new todo"
             disabled={isAgentRunning}
           >
@@ -57,7 +57,7 @@ export function TodoColumn({
       </div>
       <div className="space-y-6">
         {todos.length === 0 ? (
-          <div role="status" className="text-center py-12 text-gray-400 text-sm">
+          <div role="status" className="text-center py-12 text-gray-400 dark:text-zinc-500 text-sm">
             {emptyMessage}
           </div>
         ) : (

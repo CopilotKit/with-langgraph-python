@@ -51,7 +51,7 @@ export function ExampleLayout({
       <div
         className={`h-full overflow-hidden ${
           mode === 'app'
-            ? 'w-2/3 max-lg:w-full border-l max-lg:border-l-0' // Full width on mobile
+            ? 'w-2/3 max-lg:w-full border-l dark:border-zinc-700 max-lg:border-l-0' // Full width on mobile
             : 'w-0 border-l-0'
         }`}
       >

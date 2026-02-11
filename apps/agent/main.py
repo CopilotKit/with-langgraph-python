@@ -3,34 +3,24 @@ This is the main entry point for the agent.
 It defines the workflow graph, state, tools, nodes and edges.
 """
 
-import asyncio
 from langchain.agents import create_agent
 from copilotkit import CopilotKitMiddleware
-from langchain_mcp_adapters.client import MultiServerMCPClient
+from langchain_openai import ChatOpenAI
 from src.query import query_data
 from src.todos import todo_tools, AgentState
-
-client = MultiServerMCPClient({
-    "copilotkit": {
-        "transport": "http",
-        "url": "https://mcp.copilotkit.ai",
-    }
-})
-
-mcp_tools = asyncio.run(client.get_tools())
+from src.middleware import DisableParallelToolCallsMiddleware
 
 agent = create_agent(
-    model="gpt-5.2",
-    tools=[query_data, *mcp_tools, *todo_tools],
-    middleware=[CopilotKitMiddleware()],
+    model=ChatOpenAI(model="gpt-4.1-mini"),
+    tools=[query_data, *todo_tools],
+    middleware=[DisableParallelToolCallsMiddleware(), CopilotKitMiddleware()],
     state_schema=AgentState,
     system_prompt=f"""
         You are a helpful assistant that helps users understand CopilotKit and LangGraph used together.
 
-        When asked about generative UI:
-        1. Ground yourself in relevant information from the CopilotKit documentation.
-        2. Use one of the relevant tools to demonstrate that piece of generative UI.
-        3. Explain the concept to the user with a brief summary.
+        Be brief in your explanations of CopilotKit and LangGraph, 1 to 2 sentences.
+
+        When demonstrating charts, always call the query_data tool to fetch all data from the database first.
     """
 )
 
