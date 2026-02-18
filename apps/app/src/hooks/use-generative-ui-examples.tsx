@@ -1,21 +1,19 @@
-import {
-  useFrontendTool,
-  useHumanInTheLoop,
-} from "@copilotkit/react-core/v2";
-import { z } from "zod"
+import { useFrontendTool, useHumanInTheLoop } from "@copilotkit/react-core/v2";
+import { z } from "zod";
 import { useDefaultTool } from "@copilotkit/react-core";
 import { PieChart } from "@/components/generative-ui/charts/pie-chart";
 import { BarChart } from "@/components/generative-ui/charts/bar-chart";
 import { MeetingTimePicker } from "@/components/generative-ui/meeting-time-picker";
+import { ToolReasoning } from "@/components/tool-rendering";
 
 export const useGenerativeUIExamples = () => {
-
   // ------------------
   // 🪁 Frontend Tools: https://docs.copilotkit.ai/langgraph/frontend-actions
   // ------------------
   useFrontendTool({
     name: "toggleTheme",
-    description: "Toggle between light and dark mode for the app. This is a great example of a frontend tool.",
+    description:
+      "Toggle between light and dark mode for the app. This is a great example of a frontend tool.",
     parameters: z.object({
       theme: z.enum(["light", "dark"]).describe("The theme to switch to"),
     }),
@@ -33,13 +31,9 @@ export const useGenerativeUIExamples = () => {
   // 🪁 Backend Tool Rendering: https://docs.copilotkit.ai/langgraph/generative-ui/backend-tools
   // --------------------------
   useDefaultTool({
-    render: ({ name, status }) => {
-      const textStyles = "text-gray-500 text-sm mt-2"
-      if(status !== "complete") {
-        return <p className={textStyles}>Calling {name}...</p>;
-      }
-      return <p className={textStyles}>Called {name}!</p>;
-    },
+    render: ({ name, status, args }) => (
+      <ToolReasoning name={name} status={status} args={args} />
+    ),
   });
 
   // ----------------------------------
@@ -48,16 +42,20 @@ export const useGenerativeUIExamples = () => {
   useFrontendTool({
     name: "show_pie_chart",
     description: `
-      Displays data as a pie chart or bar chart. 
+      Displays data as a pie chart or bar chart.
       This is a great example of controlled generative UI.
     `,
     parameters: z.object({
       title: z.string().describe("Chart title"),
       description: z.string().describe("Brief description or subtitle"),
-      data: z.array(z.object({
-        label: z.string(),
-        value: z.number(),
-      })).describe("Array of {label: string, value: number}"),
+      data: z
+        .array(
+          z.object({
+            label: z.string(),
+            value: z.number(),
+          }),
+        )
+        .describe("Array of {label: string, value: number}"),
     }),
     render: ({ args }) => {
       const { title, description, data } = args;
@@ -67,23 +65,33 @@ export const useGenerativeUIExamples = () => {
       const chartDescription = description || "";
       const chartData = (data as Array<{ label: string; value: number }>) || [];
 
-      return <PieChart title={chartTitle} description={chartDescription} data={chartData} />;
-    }
+      return (
+        <PieChart
+          title={chartTitle}
+          description={chartDescription}
+          data={chartData}
+        />
+      );
+    },
   });
 
   useFrontendTool({
     name: "show_bar_chart",
     description: `
-      Displays data as a pie chart or bar chart. 
+      Displays data as a pie chart or bar chart.
       This is a great example of controlled generative UI.
     `,
     parameters: z.object({
       title: z.string().describe("Chart title"),
       description: z.string().describe("Brief description or subtitle"),
-      data: z.array(z.object({
-        label: z.string(),
-        value: z.number(),
-      })).describe("Array of {label: string, value: number}"),
+      data: z
+        .array(
+          z.object({
+            label: z.string(),
+            value: z.number(),
+          }),
+        )
+        .describe("Array of {label: string, value: number}"),
     }),
     render: ({ args }) => {
       const { title, description, data } = args;
@@ -93,8 +101,14 @@ export const useGenerativeUIExamples = () => {
       const chartDescription = description || "";
       const chartData = (data as Array<{ label: string; value: number }>) || [];
 
-      return <BarChart title={chartTitle} description={chartDescription} data={chartData} />;
-    }
+      return (
+        <BarChart
+          title={chartTitle}
+          description={chartDescription}
+          data={chartData}
+        />
+      );
+    },
   });
 
   // -------------------------------------
@@ -102,11 +116,10 @@ export const useGenerativeUIExamples = () => {
   // -------------------------------------
   useHumanInTheLoop({
     name: "demonstrateHumanInTheLoop",
-    description: "Demonstrate human-in-the-loop by proposing meeting times and asking the user to select one.",
+    description:
+      "Demonstrate human-in-the-loop by proposing meeting times and asking the user to select one.",
     render: ({ respond, status }) => {
-      return (
-        <MeetingTimePicker status={status} respond={respond} />
-      );
+      return <MeetingTimePicker status={status} respond={respond} />;
     },
   });
-}
+};

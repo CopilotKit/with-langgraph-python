@@ -5,7 +5,9 @@ export const aguiMiddleware = [
     mcpServers: [
       {
         type: "http",
-        url: process.env.MCP_SERVER_URL || "http://localhost:3108/mcp",
+        url:
+          process.env.MCP_SERVER_URL ||
+          "https://excalidraw-mcp-app.vercel.app/mcp",
         serverId: "example_mcp_app",
       },
     ],
