@@ -15,7 +15,7 @@ const defaultAgent = new LangGraphAgent({
 });
 
 // 2. Bind in middleware to the agent. For A2UI and MCP Apps.
-defaultAgent.use(...aguiMiddleware)
+defaultAgent.use(...aguiMiddleware);
 
 // 3. Define the route and CopilotRuntime for the agent
 export const POST = async (req: NextRequest) => {

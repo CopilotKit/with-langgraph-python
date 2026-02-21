@@ -1,7 +1,7 @@
 "use client";
 
 import { ExampleLayout } from "@/components/example-layout";
-import { Canvas } from "@/components/canvas";
+import { ExampleCanvas } from "@/components/example-canvas";
 import { useGenerativeUIExamples, useExampleSuggestions } from "@/hooks";
 
 import { CopilotChat } from "@copilotkit/react-core/v2";
@@ -18,7 +18,7 @@ export default function HomePage() {
     <ExampleLayout
       chatContent={<CopilotChat />}
       // chatContent={<HeadlessChat />}
-      appContent={<Canvas />}
+      appContent={<ExampleCanvas />}
     />
   );
 }

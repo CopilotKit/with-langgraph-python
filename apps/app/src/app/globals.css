@@ -1,13 +1,21 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --chart-tooltip-bg: #ffffff;
+  --chart-tooltip-border: #e5e7eb;
+  --chart-axis: #6b7280;
 }
 
 :root.dark {
   --background: #0a0a0a;
   --foreground: #ededed;
+  --chart-tooltip-bg: #27272a;
+  --chart-tooltip-border: #3f3f46;
+  --chart-axis: #a1a1aa;
 }
 
 body {

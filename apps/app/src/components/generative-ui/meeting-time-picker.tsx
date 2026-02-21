@@ -9,6 +9,8 @@ export interface TimeSlot {
 export interface MeetingTimePickerProps {
   status: "inProgress" | "executing" | "complete";
   respond?: (response: string) => void;
+  reasonForScheduling?: string;
+  meetingDuration?: number;
   title?: string;
   timeSlots?: TimeSlot[];
 }
@@ -16,6 +18,8 @@ export interface MeetingTimePickerProps {
 export function MeetingTimePicker({
   status,
   respond,
+  reasonForScheduling,
+  meetingDuration,
   title = "Schedule a Meeting",
   timeSlots = [
     { date: "Tomorrow", time: "2:00 PM", duration: "30 min" },
@@ -23,6 +27,10 @@ export function MeetingTimePicker({
     { date: "Next Monday", time: "3:00 PM", duration: "30 min" },
   ]
 }: MeetingTimePickerProps) {
+  const displayTitle = reasonForScheduling || title;
+  const slots = meetingDuration
+    ? timeSlots.map((slot) => ({ ...slot, duration: `${meetingDuration} min` }))
+    : timeSlots;
   const [selectedSlot, setSelectedSlot] = useState<TimeSlot | null>(null);
   const [declined, setDeclined] = useState(false);
 
@@ -37,7 +45,7 @@ export function MeetingTimePicker({
   };
 
   return (
-    <div className="rounded-2xl shadow-lg max-w-md w-full border dark:border-zinc-700 mx-auto mb-10 bg-white dark:bg-zinc-800">
+    <div className="rounded-2xl shadow-lg max-w-md w-full border dark:border-zinc-700 mx-auto mb-6 bg-white dark:bg-zinc-800">
       <div className="backdrop-blur-md p-8 w-full rounded-2xl">
         {/* Show confirmation or prompt */}
         {selectedSlot ? (
@@ -70,7 +78,7 @@ export function MeetingTimePicker({
             <div className="text-center mb-6">
               <div className="text-7xl mb-4">🗓️</div>
               <h2 className="text-2xl font-bold mb-2 dark:text-white">
-                {title}
+                {displayTitle}
               </h2>
               <p className="text-gray-600 dark:text-zinc-400">
                 Select a time that works for you
@@ -80,7 +88,7 @@ export function MeetingTimePicker({
             {/* Time slot options */}
             {status === "executing" && (
               <div className="space-y-3">
-                {timeSlots.map((slot, index) => (
+                {slots.map((slot, index) => (
                   <button
                     key={index}
                     onClick={() => handleSelectSlot(slot)}

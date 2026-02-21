@@ -1,3 +1,4 @@
+from langchain.agents import AgentState as BaseAgentState
 from langchain.tools import ToolRuntime, tool
 from langchain.messages import ToolMessage
 from langgraph.types import Command
@@ -11,7 +12,7 @@ class Todo(TypedDict):
     emoji: str
     status: Literal["pending", "completed"]
 
-class AgentState(TypedDict):
+class AgentState(BaseAgentState):
     todos: list[Todo]
 
 @tool

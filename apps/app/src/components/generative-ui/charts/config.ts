@@ -10,9 +10,10 @@ export const CHART_COLORS = [
 
 export const CHART_CONFIG = {
   tooltipStyle: {
-    backgroundColor: 'white',
-    border: '1px solid #e5e7eb',
+    backgroundColor: 'var(--chart-tooltip-bg)',
+    border: '1px solid var(--chart-tooltip-border)',
     borderRadius: '8px',
     padding: '8px 12px',
+    color: 'var(--foreground)',
   }
 };

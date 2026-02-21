@@ -17,15 +17,18 @@ interface TodoListProps {
 }
 
 export function TodoList({ todos, onUpdate, isAgentRunning }: TodoListProps) {
-  // Filter todos by status
   const pendingTodos = todos.filter((t) => t.status === "pending");
   const completedTodos = todos.filter((t) => t.status === "completed");
 
-  // Handlers
   const toggleStatus = (todo: Todo) => {
     const updated = todos.map((t) =>
       t.id === todo.id
-        ? { ...t, status: (t.status === "completed" ? "pending" : "completed") as "pending" | "completed" }
+        ? {
+            ...t,
+            status: (t.status === "completed" ? "pending" : "completed") as
+              | "pending"
+              | "completed",
+          }
         : t
     );
     onUpdate(updated);
@@ -49,36 +52,48 @@ export function TodoList({ todos, onUpdate, isAgentRunning }: TodoListProps) {
     onUpdate(updated);
   };
 
+  const updateEmoji = (todoId: string, emoji: string) => {
+    const updated = todos.map((t) =>
+      t.id === todoId ? { ...t, emoji } : t
+    );
+    onUpdate(updated);
+  };
+
   const addTodo = () => {
     const newTodo: Todo = {
       id: crypto.randomUUID(),
       title: "New Todo",
       description: "Add a description",
-      emoji: "✅",
+      emoji: "🎯",
       status: "pending",
     };
     onUpdate([...todos, newTodo]);
   };
 
-  // Empty state
   if (!todos || todos.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full">
+      <div className="flex flex-col items-center justify-center h-full gap-4">
+        <div className="text-5xl">✏️</div>
+        <p className="text-[16px] font-semibold text-neutral-900 dark:text-neutral-100">
+          No tasks yet
+        </p>
+        <p className="text-[14px] text-neutral-500 dark:text-neutral-400">
+          Create your first task to get started
+        </p>
         <button
           onClick={addTodo}
-          className="px-6 py-3 bg-gray-800 dark:bg-zinc-700 text-white font-medium rounded-lg hover:bg-gray-900 dark:hover:bg-gray-600 shadow-md hover:shadow-lg transition-all cursor-pointer"
+          className="mt-2 px-5 py-2.5 text-[14px] font-semibold rounded-full cursor-pointer transition-colors text-white bg-neutral-900 hover:bg-neutral-700 dark:text-neutral-900 dark:bg-neutral-100 dark:hover:bg-neutral-300"
           aria-label="Add your first todo task"
           disabled={isAgentRunning}
         >
-          Add your first todo
+          Add a task
         </button>
       </div>
     );
   }
 
-  // Columns
   return (
-    <div className="flex gap-8 h-full max-w-6xl mx-auto">
+    <div className="flex gap-8 h-full">
       <TodoColumn
         title="To Do"
         todos={pendingTodos}
@@ -89,16 +104,18 @@ export function TodoList({ todos, onUpdate, isAgentRunning }: TodoListProps) {
         onDelete={deleteTodo}
         onUpdateTitle={updateTitle}
         onUpdateDescription={updateDescription}
+        onUpdateEmoji={updateEmoji}
         isAgentRunning={isAgentRunning}
       />
       <TodoColumn
         title="Done"
         todos={completedTodos}
-        emptyMessage="No completed tasks"
+        emptyMessage="No completed tasks yet"
         onToggleStatus={toggleStatus}
         onDelete={deleteTodo}
         onUpdateTitle={updateTitle}
         onUpdateDescription={updateDescription}
+        onUpdateEmoji={updateEmoji}
         isAgentRunning={isAgentRunning}
       />
     </div>

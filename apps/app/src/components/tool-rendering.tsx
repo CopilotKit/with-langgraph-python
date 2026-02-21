@@ -1,20 +1,17 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ToolCallStatus } from "@copilotkit/react-core/v2";
 
 interface ToolReasoningProps {
   name: string;
-  args?: object;
-  status: ToolCallStatus;
+  args?: object | unknown;
+  status: string;
 }
 
 const statusIndicator = {
-  executing: (
-    <span className="inline-block h-3 w-3 rounded-full border-2 border-gray-400 border-t-transparent animate-spin" />
-  ),
+  executing: <span className="inline-block h-3 w-3 rounded-full border-2 border-gray-400 border-t-transparent animate-spin" />,
+  inProgress: <span className="inline-block h-3 w-3 rounded-full border-2 border-gray-400 border-t-transparent animate-spin" />,
   complete: <span className="text-green-500 text-xs">✓</span>,
-  inProgress: <span className="text-red-500 text-xs">✕</span>,
 };
 
 function formatValue(value: unknown): string {
@@ -28,6 +25,7 @@ function formatValue(value: unknown): string {
 export function ToolReasoning({ name, args, status }: ToolReasoningProps) {
   const entries = args ? Object.entries(args) : [];
   const detailsRef = useRef<HTMLDetailsElement>(null);
+  const toolStatus = status as "complete" | "inProgress" | "executing"
 
   // Auto-open while executing, auto-close when complete
   useEffect(() => {
@@ -40,11 +38,11 @@ export function ToolReasoning({ name, args, status }: ToolReasoningProps) {
       {entries.length > 0 ? (
         <details ref={detailsRef} open>
           <summary className="flex items-center gap-2 text-gray-600 dark:text-gray-400 cursor-pointer list-none">
-            {statusIndicator[status]}
+            {statusIndicator[toolStatus]}
             <span className="font-medium">{name}</span>
             <span className="text-[10px]">▼</span>
           </summary>
-          <div className="pl-5 mt-1 space-y-1 text-xs text-gray-500">
+          <div className="pl-5 mt-1 space-y-1 text-xs text-gray-500 dark:text-zinc-400">
             {entries.map(([key, value]) => (
               <div key={key} className="flex gap-2 min-w-0">
                 <span className="font-medium shrink-0">{key}:</span>
@@ -57,7 +55,7 @@ export function ToolReasoning({ name, args, status }: ToolReasoningProps) {
         </details>
       ) : (
         <div className="flex items-center gap-2 text-gray-600 dark:text-gray-400">
-          {statusIndicator[status]}
+          {statusIndicator[toolStatus]}
           <span className="font-medium">{name}</span>
         </div>
       )}
