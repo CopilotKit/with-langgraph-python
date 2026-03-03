@@ -9,10 +9,12 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@ag-ui/a2ui-middleware": "^0.0.2",
     "@ag-ui/mcp-apps-middleware": "^0.0.3",
-    "@copilotkit/react-core": "1.52.0-next.6",
-    "@copilotkit/react-ui": "1.52.0-next.6",
-    "@copilotkit/runtime": "1.52.0-next.6",
+    "@copilotkit/a2ui-renderer": "^1.52.1",
+    "@copilotkit/react-core": "1.52.1",
+    "@copilotkit/react-ui": "1.52.1",
+    "@copilotkit/runtime": "1.52.1",
     "next": "16.1.6",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
