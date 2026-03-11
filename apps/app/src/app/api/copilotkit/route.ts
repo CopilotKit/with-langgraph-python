@@ -19,19 +19,14 @@ export const POST = async (req: NextRequest) => {
     endpoint: "/api/copilotkit",
     serviceAdapter: new ExperimentalEmptyAdapter(),
     runtime: new CopilotRuntime({
-      agents: {
-        default: defaultAgent,
-      },
+      agents: { default: defaultAgent, },
       a2ui: { injectA2UITool: true },
-      mcp: {
-        mcpServers: [
-            {
-              type: "http",
-              url:
-                process.env.MCP_SERVER_URL || "https://mcp.excalidraw.com",
-              serverId: "example_mcp_app",
-            },
-          ],
+      mcpApps: {
+        servers: [{
+          type: "http",
+          url: process.env.MCP_SERVER_URL || "https://mcp.excalidraw.com",
+          serverId: "example_mcp_app",
+        }],
       },
     }),
   });
