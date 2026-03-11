@@ -9,10 +9,11 @@ from langchain_openai import ChatOpenAI
 
 from src.query import query_data
 from src.todos import AgentState, todo_tools
+from src.form import generate_form
 
 agent = create_agent(
     model=ChatOpenAI(model="gpt-5-mini", reasoning={"effort": "low", "summary": "concise"}),
-    tools=[query_data, *todo_tools],
+    tools=[query_data, *todo_tools, generate_form],
     middleware=[CopilotKitMiddleware()],
     state_schema=AgentState,
     system_prompt="""

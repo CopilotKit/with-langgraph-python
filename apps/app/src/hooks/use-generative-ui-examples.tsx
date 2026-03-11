@@ -50,10 +50,12 @@ export const useGenerativeUIExamples = () => {
   // --------------------------
   // 🪁 Default Tool Rendering: https://docs.copilotkit.ai/langgraph/generative-ui/backend-tools
   // --------------------------
+  const ignoredTools = ["generate_form"]
   useDefaultRenderTool({
-    render: ({ name, status, parameters }) => (
-      <ToolReasoning name={name} status={status} args={parameters} />
-    ),
+    render: ({ name, status, parameters }) => {
+      if(ignoredTools.includes(name)) return <></>;
+      return <ToolReasoning name={name} status={status} args={parameters} />;
+    },
   });
 
   // -------------------------------------
